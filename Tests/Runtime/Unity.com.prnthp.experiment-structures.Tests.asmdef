@@ -1,0 +1,11 @@
+{
+  "name": "Unity.com.prnthp.experiment-structures.Tests",
+  "references": [
+    "Unity.com.prnthp.experiment-structures"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": []
+}
