@@ -15,7 +15,7 @@ namespace ExperimentStructures
     /// stay in it, and then finally 'exit' it. A phase can either be time dependent
     /// or not.
     /// </summary>
-    [DefaultExecutionOrder(-700)]
+    [DefaultExecutionOrder(-800)]
     public abstract class Phase : Structure
     {
         [SerializeField] public bool onlyOnFirstRepetition;
@@ -25,15 +25,26 @@ namespace ExperimentStructures
 
         [Tooltip(
             "A negative duration will require the 'RaiseNextPhase' event to be triggered."
-            + "\nZero equates to a single Unity frame of execution.")]
+            + "\nZero is a single frame that goes through Enter, Loop, OnExit, but Unity events are not guaranteed."
+            + "\nSet the GuaranteeUnityFrameCycle property to ensure Unity's Update is called.")]
         [SerializeField]
         protected float duration = float.NegativeInfinity;
 
         private bool _timeLimited = true;
+
+        /// <summary>
+        /// If you are using OnEnable(), Update(), OnDisable() or Unity events like OnCollisionEnter(), you should
+        /// enable this. This will guarantee that at least 1 frame is completed.
+        /// </summary>
+        public bool GuaranteeUnityFrameCycle { get; set; } = false;
+
+        private int _completedUnityCycle = 0;
+
         public bool Alive { get; private set; }
+        
         [HideInInspector] public Trial trial;
 
-        private void Start()
+        private void Awake()
         {
             if (trial == null)
             {
@@ -43,15 +54,25 @@ namespace ExperimentStructures
             }
         }
 
-        /// <summary>
-        /// Setup the phase.
-        /// </summary>
-        public void _Enter()
+        internal void _Enter()
         {
+            _completedUnityCycle = 0;
+            
+            if (onlyOnFirstRepetition && trial.CurrentRepetition > 0)
+            {
+                _timeLimited = true;
+                EndTime = StartTime;
+                Exit();
+                return;
+            }
+            
+            Enter(); // Run user implemented Enter code
+            
             // Subscribe to nextPhase event
             ExperimentManager.Instance.nextPhase += Exit;
             // Publish start of Phase
             ExperimentManager.Instance.RaiseStartPhase();
+            
             if (duration < 0)
             {
                 _timeLimited = false;
@@ -63,27 +84,32 @@ namespace ExperimentStructures
             }
 
             Alive = true;
-
-            if (onlyOnFirstRepetition && trial.CurrentRepetition > 0)
-            {
-                _timeLimited = true;
-                EndTime = StartTime;
-                return;
-            }
-
-            Enter(); // Run user implemented Enter code
+            gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// Setup the phase.
+        /// </summary>
         public abstract void Enter();
 
-
-        public void _Loop()
+        internal void _Loop()
         {
             if (!Alive) return;
-
-            if (_timeLimited & (Time.time >= EndTime)) Exit();
-
-            if (onlyOnFirstRepetition && trial.CurrentRepetition > 0) return;
+            
+            if (_timeLimited & (Time.time >= EndTime))
+            {
+                if (GuaranteeUnityFrameCycle && _completedUnityCycle < 2)
+                {
+                    _completedUnityCycle++;
+                }
+                else
+                {
+                    Loop(); // Run user implemented Loop code
+                    Exit();
+                    return;
+                }
+            }
+            
             Loop(); // Run user implemented Loop code
         }
 
@@ -92,10 +118,7 @@ namespace ExperimentStructures
         /// </summary>
         public abstract void Loop();
 
-        /// <summary>
-        /// Exit the phase.
-        /// </summary>
-        protected void Exit()
+        private void Exit()
         {
             ExperimentManager.Instance.nextPhase -= Exit;
 
@@ -103,14 +126,19 @@ namespace ExperimentStructures
             {
                 Alive = false;
                 trial.PhaseComplete(this);
-                return;
+                return; // Skipping any state-machine methods
             }
-
-            OnExit(); // Run user implemented Exit code
+            
             Alive = false;
+            gameObject.SetActive(false);
             trial.PhaseComplete(this);
+            
+            OnExit(); // Run user implemented Exit code
         }
 
+        /// <summary>
+        /// OnExit() is called once before completing the Phase
+        /// </summary>
         public abstract void OnExit();
 
         public float Duration => duration;

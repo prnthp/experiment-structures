@@ -160,19 +160,19 @@ public class #SCRIPTNAME# : Phase
     // Required override
     public override void Enter()
     {
-#NOTRIM#
+        #NOTRIM#
     }
 
     // Required override
     public override void Loop()
     {
-#NOTRIM#
+        #NOTRIM#
     }
 
     // Required override
     public override void OnExit()
     {
-#NOTRIM#
+        #NOTRIM#
     }
 }
 ";

@@ -108,11 +108,7 @@ namespace ExperimentStructures
             _header = _header.Remove(_header.Length - 1);
         }
 
-        private void Start()
-        {
-        }
-
-        private void OnDisable()
+        private void OnDestroy()
         {
             if (_loggingActive) EndLogging();
         }

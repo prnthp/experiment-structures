@@ -12,7 +12,7 @@ namespace ExperimentStructures
     /// its child components, however, a block will completely disable the GameObject
     /// instead of using its own implementation.
     /// </summary>
-    [DefaultExecutionOrder(-900)]
+    [DefaultExecutionOrder(-802)]
     public abstract class Block : Structure
     {
         [SerializeField] [HideInInspector] public List<Trial> trials;
@@ -80,7 +80,7 @@ namespace ExperimentStructures
             startedOnce = false;
         }
 
-        protected virtual void Start()
+        private void Start()
         {
             if (!startedOnce)
             {
@@ -179,14 +179,23 @@ namespace ExperimentStructures
             if (_showUtilities)
             {
                 EditorGUILayout.Separator();
-                EditorGUILayout.LabelField("Duration Setter", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Block Overview", EditorStyles.boldLabel);
 
                 var trials = block.GetComponentsInChildren<Trial>(true);
 
                 foreach (var trial in trials)
                 {
+                    EditorGUILayout.Separator();
                     EditorGUI.indentLevel = 0;
-                    EditorGUILayout.LabelField(trial.name);
+                    // EditorGUILayout.LabelField(trial.name);
+                    EditorGUILayout.BeginHorizontal();
+                    var repetitions = EditorGUILayout.IntField(trial.name + " (reps)", trial.Repetitions, EditorStyles.miniTextField);
+                    if (repetitions != trial.Repetitions)
+                    {
+                        Undo.RegisterCompleteObjectUndo(trial, "Change Trial Repetitions");
+                        trial.Repetitions = repetitions;
+                    }
+                    EditorGUILayout.EndHorizontal();
                     var phases = trial.GetComponentsInChildren<Phase>(true);
                     EditorGUI.indentLevel = 1;
                     foreach (var phase in phases)

@@ -14,7 +14,7 @@ namespace ExperimentStructures
     /// A trial consists of multiple phases, added as child GameObjects with the
     /// Phase component
     /// </summary>
-    [DefaultExecutionOrder(-800)]
+    [DefaultExecutionOrder(-801)]
     public abstract class Trial : Structure
     {
         [SerializeField] protected int repetitions = 1;
@@ -41,7 +41,11 @@ namespace ExperimentStructures
 
         public int NumPhases => _phases.Count;
 
-        public int Repetitions => repetitions;
+        public int Repetitions
+        {
+            get => repetitions;
+            set => repetitions = value > 0 ? value : 1;
+        }
 
         public List<Phase> Phases => _phases;
 
@@ -81,7 +85,7 @@ namespace ExperimentStructures
             OnNextRepetition();
         }
 
-        protected virtual void Update()
+        private void Update()
         {
             if (_trialComplete) return;
 
@@ -104,7 +108,6 @@ namespace ExperimentStructures
             if (!_phases[_state].Alive)
             {
                 _phases[_state]._Enter();
-                _phases[_state].gameObject.SetActive(true);
                 currentPhaseGameObject = _phases[_state].gameObject;
             }
 
@@ -115,7 +118,6 @@ namespace ExperimentStructures
         {
             if (phase == _phases[_state])
             {
-                _phases[_state].gameObject.SetActive(false);
                 _state++;
                 block.PhaseComplete(phase);
             }
