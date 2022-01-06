@@ -1,0 +1,12 @@
+{
+    "name": "rotorz.unity3d-class-type-reference.editor",
+    "references": [
+        "rotorz.unity3d-class-type-reference"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

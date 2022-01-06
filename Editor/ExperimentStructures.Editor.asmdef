@@ -1,7 +1,13 @@
 {
-    "name": "Unity.com.prnthp.experiment-structures",
-    "references": [],
-    "includePlatforms": [],
+    "name": "ExerimentStructures.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f2e149db061e04f7d8b28f1430d979ea",
+        "GUID:f88fb04354076c646a4107a491394033"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

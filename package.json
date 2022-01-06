@@ -3,11 +3,11 @@
   "displayName": "Experiment Structures",
   "version": "0.0.0",
   "unity": "2019.4",
-  "description": "Glorified state machine",
+  "description": "Experiment Structures is at its core a simple state machine.",
   "keywords": [
     "unity",
-	"unity3d",
-	"upm",
+    "unity3d",
+    "upm",
     "prnthp",
     "utility"
   ],
@@ -26,9 +26,9 @@
   },
   "samples": [
     {
-        "displayName": "Sample 1",
-        "description": "Sample Description",
-        "path": "Samples~/Sample1"
+      "displayName": "Sample 1",
+      "description": "Sample Description",
+      "path": "Samples~/Sample1"
     }
-  ] 
+  ]
 }
