@@ -141,6 +141,11 @@ namespace ExperimentStructures
         /// </summary>
         public abstract void OnExit();
 
+        protected static void ExitPhase()
+        {
+            ExperimentManager.Instance.RaiseNextPhase();
+        }
+        
         public float Duration => duration;
 
         public void SetDuration(float newDuration)
@@ -192,12 +197,31 @@ namespace ExperimentStructures
                         var oldDuration = phase.Duration;
                         var oldOnlyOnFirstRepetition = phase.onlyOnFirstRepetition;
 
+                        var oldSo = new SerializedObject(phase);
+
                         Undo.DestroyObjectImmediate(phase.gameObject.GetComponent<Phase>());
 
                         var newPhase = (Phase)Undo.AddComponent(go, newPhaseReference.Type);
                         newPhase.SetDuration(oldDuration);
                         newPhase.onlyOnFirstRepetition = oldOnlyOnFirstRepetition;
                         newPhase.name = newPhaseReference.Type.Name;
+
+                        var so = new SerializedObject(newPhase);
+                        var sp = so.GetIterator();
+
+                        if (sp.NextVisible(true)) // First element is always m_script, which we should not replace
+                        {
+                            while (sp.NextVisible(true))
+                            {
+                                var oldProperty = oldSo.FindProperty(sp.propertyPath);
+                                if (oldProperty != null && (oldProperty.propertyType == sp.propertyType))
+                                {
+                                    so.CopyFromSerializedProperty(oldProperty);
+                                }
+                            }
+                            so.ApplyModifiedPropertiesWithoutUndo();
+                        }
+
                         Undo.CollapseUndoOperations(undoGroupIndex);
 
                         return;
@@ -254,7 +278,7 @@ namespace ExperimentStructures
         {
             if (GetIconForObject.Invoke(null, new[] { target }) != null) return;
 
-            Debug.LogWarning("Assigning icon to new Phase. Reimporting Asset.");
+            Debug.LogWarning("[Experiment Structures] Assigning icon to new Phase. Reimporting Asset. Please wait.");
 
             var icon =
                 AssetDatabase.LoadAssetAtPath<Texture2D>(

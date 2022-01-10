@@ -202,7 +202,6 @@ public class #SCRIPTNAME# : Trial
     // {
     //     
     // }
-    }
 }";
 
         private static string _blockTemplateContents =

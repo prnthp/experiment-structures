@@ -84,7 +84,7 @@ namespace Rotorz.Games.Reflection
                 this.type = System.Type.GetType(this.classRef);
 
                 if (this.type == null) {
-                    Debug.LogWarning($"'{this.classRef}' was referenced but class type was not found.");
+                    Debug.LogWarning($"'{this.classRef}' was referenced but was not found. Was the class deleted?");
                 }
             }
             else {

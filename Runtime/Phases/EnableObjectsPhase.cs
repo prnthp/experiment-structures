@@ -5,11 +5,11 @@ using ExperimentStructures;
 
 public class EnableObjectsPhase : Phase
 {
-    public List<GameObject> objectsToEnable;
+    public List<GameObject> objects;
 
     public override void Enter()
     {
-        foreach (var go in objectsToEnable)
+        foreach (var go in objects)
             if (go)
                 go.SetActive(true);
     }

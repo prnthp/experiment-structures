@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 #if UNITY_EDITOR
 using Rotorz.Games.Reflection;
 using System.Reflection;
+using UnityEditor.Callbacks;
 using UnityEditor;
 #endif
 
@@ -45,6 +47,21 @@ namespace ExperimentStructures
         {
             get => repetitions;
             set => repetitions = value > 0 ? value : 1;
+        }
+
+        private bool _endless;
+
+        public bool Endless
+        {
+            get => _endless;
+            set
+            {
+                _endless = value;
+                if (value)
+                {
+                    repetitions = 0;
+                }
+            }
         }
 
         public List<Phase> Phases => _phases;
@@ -88,21 +105,20 @@ namespace ExperimentStructures
         private void Update()
         {
             if (_trialComplete) return;
-
+            
             if (_state >= _phases.Count)
             {
-                if (currentRepetition >= repetitions - 1)
+                if (currentRepetition >= repetitions - 1 && !Endless)
                 {
-                    _trialComplete = true;
-                    currentPhaseGameObject = null;
-                    OnTrialComplete();
-                    block.TrialComplete(this);
+                    EndTrial();
                     return;
                 }
-
+                
                 currentRepetition++;
                 OnNextRepetition();
                 _state = 0;
+                
+                if (_trialComplete) return;
             }
 
             if (!_phases[_state].Alive)
@@ -112,6 +128,14 @@ namespace ExperimentStructures
             }
 
             _phases[_state]._Loop();
+        }
+
+        protected void EndTrial()
+        {
+            _trialComplete = true;
+            currentPhaseGameObject = null;
+            OnTrialComplete();
+            block.TrialComplete(this);
         }
 
         public void PhaseComplete(Phase phase)
@@ -220,10 +244,11 @@ namespace ExperimentStructures
 
             Undo.CollapseUndoOperations(undoGroupIndex);
         }
+        
 #endif
     }
 #if UNITY_EDITOR
-    [CustomEditor(typeof(Trial), true)]
+    [CustomEditor(typeof(Trial), true)] 
     public class TrialEditor : Editor
     {
         private static bool _showUtilities;
@@ -335,7 +360,7 @@ namespace ExperimentStructures
         {
             if (GetIconForObject.Invoke(null, new[] { target }) != null) return;
 
-            Debug.LogWarning("Assigning icon to new Trial. Reimporting Asset.");
+            Debug.LogWarning("[Experiment Structures] Assigning icon to new Trial. Reimporting Asset. Please wait.");
 
             var icon =
                 AssetDatabase.LoadAssetAtPath<Texture2D>(

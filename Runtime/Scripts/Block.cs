@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 #if UNITY_EDITOR
 using System.Reflection;
+using UnityEditor.Callbacks;
 #endif
 
 namespace ExperimentStructures
@@ -159,7 +160,7 @@ namespace ExperimentStructures
     public class BlockEditor : Editor
     {
         private static bool _showUtilities;
-
+        
         public override void OnInspectorGUI()
         {
             EditorGUILayout.LabelField("Monitor", EditorStyles.boldLabel);
@@ -187,7 +188,6 @@ namespace ExperimentStructures
                 {
                     EditorGUILayout.Separator();
                     EditorGUI.indentLevel = 0;
-                    // EditorGUILayout.LabelField(trial.name);
                     EditorGUILayout.BeginHorizontal();
                     var repetitions = EditorGUILayout.IntField(trial.name + " (reps)", trial.Repetitions, EditorStyles.miniTextField);
                     if (repetitions != trial.Repetitions)
@@ -251,7 +251,7 @@ namespace ExperimentStructures
         {
             if (GetIconForObject.Invoke(null, new[] { target }) != null) return;
 
-            Debug.LogWarning("Assigning icon to new Block. Reimporting Asset.");
+            Debug.LogWarning("[Experiment Structures] Assigning icon to new Block. Reimporting Asset. Please wait.");
 
             var icon =
                 AssetDatabase.LoadAssetAtPath<Texture2D>(
