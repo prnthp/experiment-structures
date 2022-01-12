@@ -114,13 +114,31 @@ namespace ExperimentStructures
         {
         }
 
-        public void TrialComplete(Trial trial)
+        /// <summary>
+        /// TODO: Add warning that OnTrialComplete will not be called
+        /// </summary>
+        /// <param name="trial"></param>
+        public void SkipToTrial(Trial trial)
+        {
+            TrialComplete(CurrentTrial, false);
+            
+            currentTrialNum = trials.IndexOf(trial);
+            
+            StartTrial(trial);
+        }
+
+        public void TrialComplete(Trial trial, bool startNextTrial = true)
         {
             if (trial == CurrentTrial)
                 trial.gameObject.SetActive(false);
             else
                 Debug.LogError("[Experiment Structures] Invalid trial completion invocation from " + trial.name);
 
+            if (!startNextTrial)
+            {
+                return;
+            }
+            
             currentTrialNum++;
             if (currentTrialNum >= trials.Count)
             {

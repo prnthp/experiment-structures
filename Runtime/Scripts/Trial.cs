@@ -130,7 +130,7 @@ namespace ExperimentStructures
             _phases[_state]._Loop();
         }
 
-        protected void EndTrial()
+        public void EndTrial()
         {
             _trialComplete = true;
             currentPhaseGameObject = null;
