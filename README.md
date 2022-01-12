@@ -14,13 +14,13 @@ Experiment Structures is simply a framework for a finite state machine that expl
 
 The framework has 3 main components: `Block`, `Trial`, and `Phase`. A `Block` contains a series of `Trials`, a `Trial` contains a series of `Phases`. A `Trial` can have many repetitions and a `Phase` can have a finite duration. When put together, an experiment can look like this:
 
-<img src="Images~/main_structures.svg" width=250px alt="Block→Trial→Phase diagram" />
-
-While in the Unity Editor, the above structure would look like this:
-
-<img src="Images~/main_structures_unity.png" width=250px alt="Structures in Unity Editor" />
+|Block Diagram|Scene Hierarchy|
+|---|---|
+|<img src="Images~/main_structures.svg" width=250px alt="Block→Trial→Phase diagram" />|<img src="Images~/main_structures_unity.png" width=250px alt="Structures in Unity Editor" />|
 
 Rearranging the Phases and Trials can be done by simply dragging the GameObjects around. Duplicating, copying and pasting is only a `Ctrl+D`, `Ctrl+C` and `Ctrl+V` away.
+
+<!-- TODO: gif -->
 
 <hr />
 
@@ -28,28 +28,26 @@ If you are looking for a framework that does it all: UI, data logging, structure
 
 But if you're like me, who likes to implement stuff in their own way, this might be for you! This works best if you already have a "game" in Unity and want a way to control progression in a repeated fashion. In fact, I usually build my experiments as a "minigame" first and then tack on Experiment Structures afterwards to control the flow.
 
-<hr />
-
-<!-- TODO: gif -->
-
 ### Publications that have used earlier versions of Experiment Structures:
 
-| Part of Publication | Publication (Conference/Journal) |
+I started this since around 2019, and since then have been adding new features along the way.
+
+|Part of Publication|Publication, Authors, Affiliation, Conference/Journal|
 |---|---|
-|User studies in VR, 2AFC psychophysics|**Chasm: A Screw Based Compact Haptic Actuator** (CHI 2020)|
-|User studies in VR, data collection|**Haplets: Finger-Worn Wireless and Low-Encumbrance Vibrotactile Haptic Feedback for Virtual and Augmented Reality** (Frontiers in Virtual Reality, 2021)|
+|User studies in VR, data collection|**Haplets: Finger-Worn Wireless and Low-Encumbrance Vibrotactile Haptic Feedback for Virtual and Augmented Reality**, P. Preechayasomboon, E. Rombokas, UW, Frontiers in Virtual Reality, 2021|
+|User studies in VR, 2AFC psychophysics|**Chasm: A Screw Based Compact Haptic Actuator**, P. Preechayasomboon, A. Israr, M. Samad, Meta Reality Labs, CHI 2020|
+|User studies in VR|Dissertation, David E. Cabellero, UW, 2020|
 
 ## Usage
 
-Each component is designed to be a single component in a GameObject. All three components are `abstract` classes, meaning that the user must implement their own code with the requisite implementations for each component. This may seem tedious, but it is similar to how Unity's `MonoBehaviours` work. All components are, of course, re-usable. There are also a bunch utility and example Phases, Trials and Blocks readily available.
+Each component is designed to be a single component in a GameObject. All three components are `abstract` classes, meaning that the user must implement their own code with the requisite implementations for each component. This may seem tedious, but it is similar to how Unity's `MonoBehaviours` work. All components are, of course, re-usable. There are also a bunch of utility and example Phases, Trials and Blocks readily available.
 
-All classes are derived from `MonoBehaviour`, so serialization should work as expected and the structures should play well with Prefabs. Some Unity user callbacks (e.g. `FixedUpdate()`) are available.
+All classes are derived from Unity's `MonoBehaviour`, so serialization should work as expected and the structures should play well with Prefabs. Some Unity user callbacks (e.g. `FixedUpdate()`) are available.
 
 ### Phase
 
 A Phase can be thought of as a GameObject that automatically starts, loops (think `Update()`) and stops itself. Phases can have a finite duration or loop forever.
 
-Phases look like this:
 ```C#
 public class MyPhase : Phase // Implement the base class
 {
@@ -59,9 +57,9 @@ public class MyPhase : Phase // Implement the base class
 
     public override void Enter()
     {
-        GuaranteeUnityFrameCycle = true; // Make sure Update() is called
-
         someObject.SetActive(true);
+
+        GuaranteeUnityFrameCycle = true; // Optional flag: Make sure Update() is called
     }
 
     public override void Loop()
@@ -83,21 +81,28 @@ public class MyPhase : Phase // Implement the base class
 }
 ```
 
-The inspector would show this:
-<img src="Images~/myphase_example.png" width=400px alt="Example of a Phase" />
+<img src="Images~/myphase_example.png" width=500px alt="Example of a Phase" />
 
 - Only On First Repetition: the Phase will only run through during the first repetition of the trial
-- Duration: In seconds, how long should this Phase last. 
-  - A negative number indicates that this Phase is to loop indefinitely. An event `NextPhase()`, called using `EventManager.Instance.NextPhase()` is used to exit the Phase.
-  - Zero indicates that the Phase be run through once: `Enter()`→`Loop()`→`OnExit()`.
-  - The property `GuaranteeUnityFrameCycle`, available only through code, can be set to `true` to ensure that a Phase with zero duration go through an entire Unity frame *at least* once. However, this does not mean that Unity's order of execution is guaranteed, nor is a single frame or a single `Loop()` guaranteed.
+- Duration: In seconds, how long this Phase lasts
+  - A negative number indicates that this Phase is to loop indefinitely. An event `NextPhase()`, called using `EventManager.Instance.NextPhase()` is used to exit the Phase. 
+  
+    This is useful for waiting for stuff to happen, e.g. waiting for the user to respond.
+
+  - Zero indicates that the Phase be run through once: `Enter()`→`Loop()`→`OnExit()`. 
+  
+    This is useful for firing events or setting things up, e.g. activating a GameObject, spawning a Prefab.
+    
+  - The property `GuaranteeUnityFrameCycle`, available only through code, can be set to `true` to ensure that a Phase with zero duration goes through an entire Unity frame *at least* once. 
+  
+    However, this does not mean that Unity's order of execution is guaranteed, nor is a single frame or a single `Loop()` guaranteed.
+
 - Setting the GameObject holding the Phase to inactive (top-left tickbox in Inspector) will disable the Phase when the Scene is started.
 
 ### Trial
 
 A Trial is like a list of Phases. It goes through each child Phase one-by-one according to the order in the hierarchy. A Trial typically has a number of repetitions (minimum is one). An endlessly repeating Trial can also be marked as `Endless` through the property accessible by code.
 
-Trials look like this:
 ```C#
 public class MyTrial : Trial
 {
@@ -106,14 +111,14 @@ public class MyTrial : Trial
     
     protected override void OnTrialBegin() // Optional override
     {
-        Endless = true; // Makes this trial run repeatedly until ExitTrial() is called
-
         someCanvas.enabled = true;
+
+        Endless = true; // Optional flag: Makes this trial run repeatedly until ExitTrial() is called
     }
 
     protected override void OnNextRepetition() // Optional override
     {
-        someText.text = "Repetition: " + CurrentRepetition;
+        someText.text = "Repetition: " + CurrentRepetition; // Starts with the 0th repetition.
     }
 
     protected override void OnTrialComplete() // Optional override
@@ -123,16 +128,16 @@ public class MyTrial : Trial
 }
 ```
 
-The inspector would show this:
 <img src="Images~/mytrial_example.png" width=400px alt="Example of a Trial" />
 
 - The three methods: `OnTrialBegin()`, `OnNextRepetition()` and `OnTrialComplete()` are all optional. Your class can be entirely blank.
 - Trials that have their property `Endless` set to `true` will run repeatedly until the `ExitTrial()` method is called. Phases can access this using `trial.ExitTrial()`, as `trial` refers to its parent Trial.
 - Phases can also use the `trial.SkipToTrial()` method to immediately skip to another trial in its parent Block's hierarchy. This can be useful for creating simple menus.
+- Setting the GameObject holding the Trial to inactive will disable the Trial when the Scene is started.
 
 ### Block
 
-A Block is a container of Trials. Each trial is run through one-by-one according to the order in the hierarchy. You will most likely only use the provided `BlankBlock` or `GenericBlock` (that has Unity Events), since most of the useful stuff is accessed through the Inspector.
+A Block is a container of Trials. Each trial is run through one-by-one according to the order in the hierarchy. The provided `BlankBlock` or `GenericBlock` (that has Unity Events) is most likely enough. Most of the useful stuff are Editor features accessed through the Inspector.
 
 ```C#
 public class BlankBlock : Block
