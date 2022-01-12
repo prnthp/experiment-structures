@@ -92,7 +92,7 @@ public class MyPhase : Phase // Implement the base class
   - Zero indicates that the Phase be run through once: `Enter()`→`Loop()`→`OnExit()`. 
   
     This is useful for firing events or setting things up, e.g. activating a GameObject, spawning a Prefab.
-    
+
   - The property `GuaranteeUnityFrameCycle`, available only through code, can be set to `true` to ensure that a Phase with zero duration goes through an entire Unity frame *at least* once. 
   
     However, this does not mean that Unity's order of execution is guaranteed, nor is a single frame or a single `Loop()` guaranteed.
@@ -128,7 +128,7 @@ public class MyTrial : Trial
 }
 ```
 
-<img src="Images~/mytrial_example.png" width=400px alt="Example of a Trial" />
+<img src="Images~/mytrial_example.png" width=500px alt="Example of a Trial" />
 
 - The three methods: `OnTrialBegin()`, `OnNextRepetition()` and `OnTrialComplete()` are all optional. Your class can be entirely blank.
 - Trials that have their property `Endless` set to `true` will run repeatedly until the `ExitTrial()` method is called. Phases can access this using `trial.ExitTrial()`, as `trial` refers to its parent Trial.
@@ -137,7 +137,7 @@ public class MyTrial : Trial
 
 ### Block
 
-A Block is a container of Trials. Each trial is run through one-by-one according to the order in the hierarchy. The provided `BlankBlock` or `GenericBlock` (that has Unity Events) is most likely enough. Most of the useful stuff are Editor features accessed through the Inspector.
+A Block is a container of Trials. Each trial is run through one-by-one according to the order in the hierarchy. The provided `BlankBlock` or `GenericBlock` (that has Unity Events) is most likely enough. Most of the useful stuff are quality of life features accessed through the Inspector.
 
 ```C#
 public class BlankBlock : Block
@@ -148,7 +148,7 @@ public class BlankBlock : Block
 }
 ```
 
-<img src="Images~/blank_block.png" width=400px alt="Blank Block" />
+<img src="Images~/blank_block.png" width=500px alt="Blank Block" />
 
 - **Trials To Shuffle**
   
