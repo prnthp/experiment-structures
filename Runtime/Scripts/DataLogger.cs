@@ -12,25 +12,8 @@ namespace ExperimentStructures
     public class DataLogger : MonoBehaviour
     {
         public DatapointPairs Datapoints { get; private set; }
-
-        [HideInInspector] public List<ValueEntry> entries;
-
-        [Serializable]
-        public class ValueEntry
-        {
-            public string key;
-            public string value;
-
-            public ValueEntry()
-            {
-            }
-
-            public ValueEntry(string key, string value)
-            {
-                this.key = key;
-                this.value = value;
-            }
-        }
+        
+        public List<string> keys;
 
         private static DataLogger _instance;
 
@@ -91,21 +74,6 @@ namespace ExperimentStructures
             _loggingActive = false;
 
             Debug.Log("[Experiment Structures] Logs are saved to: " + Path.GetFullPath(ValidatedPathPrepend()));
-
-
-            Datapoints = new DatapointPairs();
-
-            if (entries != null)
-                foreach (var item in entries)
-                    Datapoints.AddValue(item.key, item.value);
-
-            // Setup
-            _header = "";
-            _header += "time,";
-
-            foreach (var key in Datapoints.Headers) _header += key + ",";
-
-            _header = _header.Remove(_header.Length - 1);
         }
 
         private void OnDestroy()
@@ -120,7 +88,7 @@ namespace ExperimentStructures
                 Debug.Log("[Experiment Structures] Started logging already, closing old file and opening new one.");
                 EndLogging();
             }
-
+            
             _currentFileName = (fileName == "" ? "" : fileName + "-") +
                                DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".csv";
 
@@ -139,8 +107,25 @@ namespace ExperimentStructures
 
             Debug.Log($"[Experiment Structures] Logging experiment to '{Path.GetFullPath(_currentFilePath)}'");
 
-            _loggingActive = true;
+            Datapoints = new DatapointPairs();
 
+            if (keys != null)
+            {
+                foreach (var key in keys)
+                {
+                    Datapoints.AddValue(key, "");
+                }
+            }
+
+            _header = "";
+            _header += "time,";
+
+            foreach (var key in Datapoints.Headers) _header += key + ",";
+
+            _header = _header.Remove(_header.Length - 1);
+
+            _loggingActive = true;
+            
             onStartLogging?.Invoke();
         }
 

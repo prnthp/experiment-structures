@@ -12,7 +12,7 @@
 
 Experiment Structures is simply a framework for a finite state machine that exploits Unity's Scene hierarchy for reordering the states and utilizes Unity's component Inspector for configuration. The framework has been used mainly for creating human behavioral experiments (psychophysics) and data collection applications.
 
-The framework has 3 main components: `Block`, `Trial`, and `Phase`. A `Block` contains a series of `Trials`, a `Trial` contains a series of `Phases`. A `Trial` can have many repetitions and a `Phase` can have a finite duration. When put together, an experiment can look like this:
+The framework has 3 main components: **Block**, **Trial**, and **Phase**. A **Block** contains a series of **Trials**, a **Trial** contains a series of **Phases**. A **Trial** can have many repetitions and a **Phase** can have a finite duration. When put together, an experiment can look like this:
 
 |Block Diagram|Scene Hierarchy|
 |---|---|
@@ -22,21 +22,33 @@ Rearranging the Phases and Trials can be done by simply dragging the GameObjects
 
 <!-- TODO: gif -->
 
-<hr />
+*If you are looking for a framework that does it all: UI, data logging, structured sessions, analysis, etc. - look at [UXF](https://github.com/immersivecognition/unity-experiment-framework) or [Psychopy](https://psychopy.org/)! (also, if you need millisecond accuracy, look away, Unity is not designed for that stuff!)*
 
-If you are looking for a framework that does it all: UI, data logging, structured sessions, analysis, etc. - look at [UXF](https://github.com/immersivecognition/unity-experiment-framework) or [Psychopy](https://psychopy.org/)! (also, if you need millisecond accuracy, look away, Unity is not designed for that stuff!)
-
-But if you're like me, who likes to implement stuff in their own way, this might be for you! This works best if you already have a "game" in Unity and want a way to control progression in a repeated fashion. In fact, I usually build my experiments as a "minigame" first and then tack on Experiment Structures afterwards to control the flow.
+But if you're like me, who likes to implement stuff in their own way, this might be for you! This works best if you already have a "game" in Unity and want a way to control progression in a repeated fashion. I usually build my experiments as a "minigame" first and then tack on Experiment Structures afterwards to control the flow.
 
 ### Publications that have used earlier versions of Experiment Structures:
 
-I started this since around 2019, and since then have been adding new features along the way.
+I started this around 2019, and have been adding new features along the way.
 
 |Part of Publication|Publication, Authors, Affiliation, Conference/Journal|
 |---|---|
 |User studies in VR, data collection|**Haplets: Finger-Worn Wireless and Low-Encumbrance Vibrotactile Haptic Feedback for Virtual and Augmented Reality**, P. Preechayasomboon, E. Rombokas, UW, Frontiers in Virtual Reality, 2021|
 |User studies in VR, 2AFC psychophysics|**Chasm: A Screw Based Compact Haptic Actuator**, P. Preechayasomboon, A. Israr, M. Samad, Meta Reality Labs, CHI 2020|
 |User studies in VR|Dissertation, David E. Cabellero, UW, 2020|
+
+<hr />
+
+## Install
+
+Experiment Structures doesn't have any dependencies. You have two options: 
+- Clone this repo into your `Packages/` directory in your Unity project. This is useful if you want to modify this package to your own liking.
+- In the Package Manager, click the **+** sign at the top-left corner and hit `Add package from git URL...`, then enter `https://github.com/prnthp/experiment-structures.git`
+
+Once you've added Experiment Structures, go to **Assets**→**Create Experiment Structures Templates** to add some script templates to your `Asset/ScriptTemplates` directory. After restarting the Editor, you can just right-click in your Project tab and hit **Create**→**Experiment Structures**→**Phase**,**Trial** & **Block** just like you would with a new C# script! All the boilerplate is already added for you!
+
+<!-- TODO: Publish to UPM -->
+
+<hr />
 
 ## Usage
 
@@ -85,7 +97,7 @@ public class MyPhase : Phase // Implement the base class
 
 - Only On First Repetition: the Phase will only run through during the first repetition of the trial
 - Duration: In seconds, how long this Phase lasts
-  - A negative number indicates that this Phase is to loop indefinitely. An event `NextPhase()`, called using `EventManager.Instance.NextPhase()` is used to exit the Phase. 
+  - A negative number indicates that this Phase is to loop indefinitely. An event `NextPhase()`, called using `ExperimentManager.Instance.NextPhase()` is used to exit the Phase. 
   
     This is useful for waiting for stuff to happen, e.g. waiting for the user to respond.
 
@@ -152,12 +164,26 @@ public class BlankBlock : Block
 
 - **Trials To Shuffle**
   
-  TODO: Explain.
+  In the Trials To Shuffle property, Trials can be added as groups (a group can contain a single Trial). These groups are then shuffled in-place, meaning that the order of the untouched Trials is maintained. You must also specify whether to clock the trials or not, clocking means that the Trial groups are rotated around instead of being randomly shuffled. Shuffling without clocking can result in the same order. Phases and Trials can access access shuffling using `block.ShuffleTrials()`.
   
-  TODO: [Image explaining]
+|`block.ShuffleTrials(clocked=false)`|`block.ShuffleTrials(clocked=true)`|
+|---|---|
+|<img src="Images~/shuffling.svg" alt="Shuffling example" />|<img src="Images~/clocking.svg" alt="Clocking example" />|
 
 - **Utilities**
   - The Block Overview has a useful interface to quickly set its Trials repetitions and each Trial's Phases' duration and OnlyOnFirstRepetition properties.
+
+## Utilities
+
+Phases and Trials also have custom Inspectors that contain Utilities as described below (Undo/Redo is supported):
+
+|`Phase Utilities`|`Trial Utilities`|
+|---|---|
+|<img src="Images~/phase_utilities.png" alt="Phase utilities" />|<img src="Images~/trial_utilities.png" alt="Trial utilities" />|
+|**Replace Phase**: Replacement with a Phase, will attempt to match serialized properties, name of GameObject will reflect new Phase|**Trial Builder**: Appends or Replaces the Phases in this Trial with the specified Phases in Phases To Build|
+|**Add Phases to End of Trial**: *as described*|**Replace Trial**: *as described*, will not attempt to match serialized properties, name of GameObject will reflect new Trial|
+||**Add Trial to End of Block**: *as described*|
+||**Force Next Phase**: Convenient button for raising the `NextPhase` event when monitoring the Trial|
 
 ## Structures Overview
 
@@ -165,41 +191,93 @@ This should help explain some concepts presented above:
 
 ![Giant overview diagram](Images~/main_diagram.svg)
 
-## Event Manager
+## Experiment Manager
 
-Stub: Event Manager only does one thing: `RaiseNextPhase()`.
+The Experiment Manager is a singleton that manages the `NextPhase` event. It will spawn automatically if you have not added one in your Scene. To raise the `NextPhase` event, simply call `ExperimentManager.Instance.RaiseNextPhase()`.
 
 ## Data Logger
 
-Stub: Data logger is optional, but very useful for collecting basic data about each repetition or trial.
+The Data Logger is a singleton that provides simple data logging in a table-like format. Data Logger has a Datapoints object that is simply a thin wrapper of a `Dictionary<string, string>`. The general workflow is as follows:
 
-## Install
+```C#
+private void SomeInitialMethod()
+    {
+        // Set up the headers
+        DataLogger.Instance.keys = new List<string>(new []{"subject", "trial", "repetition", "parameter"});
+    }
 
-Experiment Structures doesn't have any dependencies. You have two options: 
-- Clone this repo into your `Packages/` directory in your Unity project. This is useful if you want to modify this package to your own liking.
-- In the Package Manager, click the **+** sign at the top-left corner and hit [Add package from git URL...], then enter `https://github.com/prnthp/experiment-structures.git`
+private void SomeMethodLater()
+{
+    DataLogger.Instance.StartLogging(""); // Can be blank, will use 'yyyy-MM-dd-HH-mm-ss.csv'
+    // or
+    DataLogger.Instance.StartLogging("my-experiment"); // Will become 'my-experiment-yyyy-MM-dd-HH-mm-ss.csv'
+}
 
-Once you've added Experiment Structures, go to **Assets**→**Create Experiment Structures Templates** to add some script templates to your `Asset/ScriptTemplates` directory. After restarting the Editor, you can just right-click in your Project tab and hit **Create**→**Experiment Structures**→**Phase**,**Trial** & **Block** just like you would with a new C# script! All the boilerplate is already added for you!
+private void SetData()
+{
+    DataLogger.Instance.Datapoints.SetValue("subject", _subjectNum);
+    // ... across multiple methods ...
+    DataLogger.Instance.Datapoints.SetValue("trial", trial.name);
+    // ... across more methods ...
+    DataLogger.Instance.Datapoints.SetValue("repetition", trial.CurrentRepetition);
+    // ...
+    DataLogger.Instance.Datapoints.SetValue("parameter", _reactionTime);
+    // ...
+    DataLogger.Instance.SetDatapoint("foo", "bar"); // "key", "value"
+}
 
-<!-- TODO: Publish to UPM -->
+private void EvenLater()
+{
+    // This will create a row in the table
+    DataLogger.Instance.LogState(); // The .csv file is updated at this point
+    // ... some time later ...
+    SetData();
+}
+
+private void Finally()
+{
+    // This will close 'my-experiment-yyyy-MM-dd-HH-mm-ss.csv'
+    DataLogger.Instance.EndLogging();
+}
+```
+
+Additionally, you can use the provided StartLogging, EndLogging, LogState, and OpenLogDirectory Phases. The Inspector for the Data Logger component also has bunch of useful fields. The Float Format field is used to specify the format when serializing floats, it is simply what you specify when using `Single.toString("F3")`.
+
+The above example could result in a table that looks like this:
+| time         | subject | trial | repetition | parameter   |
+|--------------|---------|-------|------------|-------------|
+| 3.03578E+000 | 1       | 1     | 0          | 1.55142E+00 |
+| 5.30343E+000 | 1       | 1     | 1          | 1.67434E+00 |
+| 6.84739E+000 | 1       | 2     | 0          | 1.65547E+00 |
+| 8.32337E+000 | 1       | 2     | 1          | 1.14001E+00 |
+
+<hr />
 
 ## Samples
 
-### Basic
+Use the Samples dropdown in the Package Manager to Install these samples.
 
-Stub: Bogus 2AFC stuff
+### Basic Samples
+
+There are two Scenes provided: FeatureOverview and ColorIntensitySample. FeatureOverview contains a simplistic 2D Scene like the examples above and runs through most of the features available. ColorIntensitySample is a 2AFC experiment with absolutely no forethought on design, but serves as a "looks-like" prototype.
+
+<!-- TODO: Video -->
 
 ### AEPsych-driven Samples
 
-Hi Meta folks!
+Hi Meta folks! AEPsych-driven samples use the AEPsych server for adaptive experimentation provided by the perceptual science folks at Meta Reality Labs. It can shorten the amount of time for perceptual studies significantly!
 
 <!-- TODO: cool gif -->
 
-See [/Samples~/AEPsychDriven/](Samples~/AEPsychDriven/)
+See [Samples~/AEPsychDriven/](Samples~/AEPsychDriven/)
 
 ### VR
 
-Stub: Button user study from Chasm
+The VR Sample is a simple 2AFC button stiffness experiment that you can run in the Editor or on an Oculus Quest/2. It is a simplified version of the experiment described in the paper **Chasm: A Screw Based Compact Haptic Actuator**.
+
+<!-- TODO: Video -->
+
+You will need to [configure your project for VR](https://developer.oculus.com/documentation/unity/unity-conf-settings/) and add the [Oculus Integration](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022) Asset to your project. Only the `Oculus/VR` folder is required.
 
 ## License
 
