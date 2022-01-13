@@ -152,12 +152,14 @@ namespace ExperimentStructures
         {
             duration = newDuration;
         }
-
+        
+#if UNITY_EDITOR
         [SerializeField] [HideInInspector] [ClassExtends(typeof(Phase))]
         internal ClassTypeReference replacePhaseWith;
 
         [SerializeField] [HideInInspector] [ClassExtends(typeof(Phase))]
         internal ClassTypeReference addPhase;
+#endif
     }
 
 #if UNITY_EDITOR

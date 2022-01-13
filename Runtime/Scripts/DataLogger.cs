@@ -141,7 +141,7 @@ namespace ExperimentStructures
         private string ValidatedPathPrepend()
         {
 #if UNITY_ANDROID || UNITY_IOS
-            if (!skipPathValidation && !Application.isEditor)
+            if (!skipMobilePathValidation && !Application.isEditor)
             {
                 if (customPath != "")
                 {
@@ -211,6 +211,12 @@ namespace ExperimentStructures
         
         public void SetDataPoint(string input)
         {
+            if (!_loggingActive)
+            {
+                Debug.LogWarning("[Experiment Structures] No logging active. Creating new file.");
+                StartLogging(defaultFileName);
+            }
+            
             var data = input.Split(',');
             if (data.Length != 2)
             {

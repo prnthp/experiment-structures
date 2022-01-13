@@ -177,7 +177,7 @@ public class BlankBlock : Block
 
 Phases and Trials also have custom Inspectors that contain Utilities as described below (Undo/Redo is supported):
 
-|`Phase Utilities`|`Trial Utilities`|
+|Phase Utilities|Trial Utilities|
 |---|---|
 |<img src="Images~/phase_utilities.png" alt="Phase utilities" />|<img src="Images~/trial_utilities.png" alt="Trial utilities" />|
 |**Replace Phase**: Replacement with a Phase, will attempt to match serialized properties, name of GameObject will reflect new Phase|**Trial Builder**: Appends or Replaces the Phases in this Trial with the specified Phases in Phases To Build|
@@ -201,10 +201,10 @@ The Data Logger is a singleton that provides simple data logging in a table-like
 
 ```C#
 private void SomeInitialMethod()
-    {
-        // Set up the headers
-        DataLogger.Instance.keys = new List<string>(new []{"subject", "trial", "repetition", "parameter"});
-    }
+{
+    // Set up the headers
+    DataLogger.Instance.keys = new List<string>(new []{"subject", "trial", "repetition", "parameter"});
+}
 
 private void SomeMethodLater()
 {
