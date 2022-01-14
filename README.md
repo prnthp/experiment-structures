@@ -275,7 +275,7 @@ See [Samples~/AEPsychDriven/](Samples~/AEPsychDriven/)
 
 The VR Sample is a simple 2AFC button stiffness experiment that you can run in the Editor or on an Oculus Quest/2. It is a simplified version of the experiment described in the paper **Chasm: A Screw Based Compact Haptic Actuator**.
 
-<!-- TODO: Video -->
+https://user-images.githubusercontent.com/25041773/149437683-63ab998c-17a1-40f2-b126-10adb3e94131.mp4
 
 You will need to [configure your project for VR](https://developer.oculus.com/documentation/unity/unity-conf-settings/) and add the [Oculus Integration](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022) Asset to your project. Only the `Oculus/VR` folder is required. Choose the OpenXR backend when prompted.
 
