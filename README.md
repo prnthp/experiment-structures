@@ -2,15 +2,24 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-<!-- - [Basic Concepts](#basic-concepts)
-- [Install](#install)
-- [Configuration](#configuration) -->
-
+- [Basic Concepts](#basic-concepts)
+- [**Install**](#install)
+- [Usage](#usage)
+    - [Phase](#phase)
+    - [Trial](#trial)
+    - [Block](#block)
+- [Utilities](#utilities)
+- [Extras](#structures-overview)
+- [**Samples**](#samples)
+    - [Basic Samples](#basic-samples)
+    - [AEPsych-driven](#aepsych-driven-samples)
+    - [VR](#vr)
+- [License](#license)
 <!-- toc -->
 
 ## Basic Concepts
 
-Experiment Structures is simply a framework for a finite state machine that exploits Unity's Scene hierarchy for reordering the states and utilizes Unity's component Inspector for configuration. The framework has been used mainly for creating human behavioral experiments (psychophysics) and data collection applications.
+Experiment Structures is simply a framework for a finite state machine that exploits Unity's Scene hierarchy for reordering the states and utilizes Unity's Inspector for configuration. The framework has been used mainly for creating human behavioral experiments (psychophysics) and data collection applications.
 
 The framework has 3 main components: **Block**, **Trial**, and **Phase**. A **Block** contains a series of **Trials**, a **Trial** contains a series of **Phases**. A **Trial** can have many repetitions and a **Phase** can have a finite duration. When put together, an experiment can look like this:
 
@@ -20,7 +29,7 @@ The framework has 3 main components: **Block**, **Trial**, and **Phase**. A **Bl
 
 Rearranging the Phases and Trials can be done by simply dragging the GameObjects around. Duplicating, copying and pasting is only a `Ctrl+D`, `Ctrl+C` and `Ctrl+V` away.
 
-<!-- TODO: gif -->
+<img src="https://user-images.githubusercontent.com/25041773/149586598-68d32c66-2e02-4784-9491-6211f6e3d742.gif" width=800px alt="Example of Workflow" />
 
 *If you are looking for a framework that does it all: UI, data logging, structured sessions, analysis, etc. - look at [UXF](https://github.com/immersivecognition/unity-experiment-framework) or [Psychopy](https://psychopy.org/)! (also, if you need millisecond accuracy, look away, Unity is not designed for that stuff!)*
 
@@ -30,11 +39,11 @@ But if you're like me, who likes to implement stuff in their own way, this might
 
 I started this around 2019, and have been adding new features along the way.
 
-|Part of Publication|Publication, Authors, Affiliation, Conference/Journal|
-|---|---|
-|User studies in VR, data collection|**Haplets: Finger-Worn Wireless and Low-Encumbrance Vibrotactile Haptic Feedback for Virtual and Augmented Reality**, P. Preechayasomboon, E. Rombokas, UW, Frontiers in Virtual Reality, 2021|
-|User studies in VR, 2AFC psychophysics|**Chasm: A Screw Based Compact Haptic Actuator**, P. Preechayasomboon, A. Israr, M. Samad, Meta Reality Labs, CHI 2020|
-|User studies in VR|Dissertation, David E. Cabellero, UW, 2020|
+|Part of Publication|Publication, Authors, Affiliation, Conference/Journal|Link|
+|---|---|---|
+|User studies in VR, data collection|**Haplets: Finger-Worn Wireless and Low-Encumbrance Vibrotactile Haptic Feedback for Virtual and Augmented Reality**, P. Preechayasomboon, E. Rombokas, UW, Frontiers in Virtual Reality, 2021|[Paper](https://www.frontiersin.org/articles/10.3389/frvir.2021.738613/full)|
+|User studies in VR, 2AFC psychophysics|**Chasm: A Screw Based Compact Haptic Actuator**, P. Preechayasomboon, A. Israr, M. Samad, Meta Reality Labs, CHI 2020|[Paper](https://research.facebook.com/publications/chasm-a-screw-based-expressive-compact-haptic-actuator/), [Presentation](https://www.youtube.com/watch?v=KKBP8giaisY)|
+|User studies in VR|Dissertation, David E. Cabellero, UW, 2020|-|
 
 <hr />
 
