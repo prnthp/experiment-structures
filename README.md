@@ -49,6 +49,10 @@ I started this around 2019, and have been adding new features along the way.
 
 ## Install
 
+Minimum Unity version: 2020.1
+
+Extensively Tested on Unity version: 2020.3
+
 Experiment Structures doesn't have any dependencies. You have two options: 
 - Clone this repo into your `Packages/` directory in your Unity project. This is useful if you want to modify this package to your own liking.
 - In the Package Manager, click the **+** sign at the top-left corner and hit `Add package from git URL...`, then enter `https://github.com/prnthp/experiment-structures.git`

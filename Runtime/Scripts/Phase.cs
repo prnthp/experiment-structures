@@ -154,11 +154,14 @@ namespace ExperimentStructures
         }
         
 #if UNITY_EDITOR
+#pragma warning disable CS0649
+        // Disable null warnings for Unity < 2020
         [SerializeField] [HideInInspector] [ClassExtends(typeof(Phase))]
         internal ClassTypeReference replacePhaseWith;
 
         [SerializeField] [HideInInspector] [ClassExtends(typeof(Phase))]
         internal ClassTypeReference addPhase;
+#pragma warning restore CS0649
 #endif
     }
 

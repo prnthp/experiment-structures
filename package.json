@@ -1,15 +1,16 @@
 {
   "name": "com.prnthp.experiment-structures",
   "displayName": "Experiment Structures",
-  "version": "0.0.0",
-  "unity": "2019.4",
-  "description": "Experiment Structures is at its core a simple state machine.",
+  "version": "1.0.0",
+  "unity": "2020.3",
+  "description": "Experiment Structures is simply a framework for a finite state machine that exploits Unity's Scene hierarchy for reordering the states and utilizes Unity's Inspector for configuration. The framework has been used mainly for creating human behavioral experiments (psychophysics) and data collection applications.\nThe framework has 3 main components: Block, Trial, and Phase. A Block contains a series of Trials, a Trial contains a series of Phases. A Trial can have many repetitions and a Phase can have a finite duration. ",
   "keywords": [
     "unity",
     "unity3d",
-    "upm",
     "prnthp",
-    "utility"
+    "utility",
+    "experiments",
+    "state-machine"
   ],
   "homepage": "https://github.com/prnthp/experiment-structures.git",
   "bugs": {
@@ -26,9 +27,24 @@
   },
   "samples": [
     {
-      "displayName": "Sample 1",
-      "description": "Sample Description",
-      "path": "Samples~/Sample1"
+      "displayName": "Common Files (install this first)",
+      "description": "Please install these files before installing other samples.",
+      "path": "Samples~/CommonFiles"
+    },
+    {
+      "displayName": "Basic",
+      "description": "Contains a basic example that highlights features and a bogus 2AFC experiment.",
+      "path": "Samples~/Basic"
+    },
+    {
+      "displayName": "AEPsychDriven",
+      "description": "AEPsych-driven example. Please check the README for prerequisites before installing.",
+      "path": "Samples~/AEPsychDriven"
+    },
+    {
+      "displayName": "VR",
+      "description": "Button stiffness discrimination (pseudohaptics vs. controller vibration) VR example. Please install Oculus Integration first.",
+      "path": "Samples~/VR"
     }
   ]
 }

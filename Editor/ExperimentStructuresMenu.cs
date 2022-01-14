@@ -11,7 +11,11 @@ namespace ExperimentStructures
         [MenuItem("GameObject/Experiment Structures/Experiment Manager", false, 49)]
         public static void AddExperimentManager()
         {
+#if UNITY_2020_1_OR_NEWER
             if (GameObject.FindObjectOfType<ExperimentManager>(true))
+#else
+            if (GameObject.FindObjectOfType<ExperimentManager>())
+#endif
             {
                 Debug.LogError("[Experiment Structures] Experiment Manager already exists in the Scene. There can only be one Experiment Manager.");
                 return;
@@ -26,7 +30,11 @@ namespace ExperimentStructures
         [MenuItem("GameObject/Experiment Structures/Data Logger", false, 49)]
         public static void AddDataLogger()
         {
+#if UNITY_2020_1_OR_NEWER
             if (GameObject.FindObjectOfType<DataLogger>(true))
+#else
+            if (GameObject.FindObjectOfType<DataLogger>())
+#endif
             {
                 Debug.LogError("[Experiment Structures] Data Logger already exists in the Scene. There can only be one Data Logger.");
                 return;

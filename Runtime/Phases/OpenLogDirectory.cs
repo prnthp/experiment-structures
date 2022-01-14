@@ -10,7 +10,8 @@ public class OpenLogDirectory : Phase
 
     public void SetPath(string fullPath, string _)
     {
-        path = fullPath;
+        // Deprecated
+        // path = fullPath;
     }
 
     // Required override
@@ -28,6 +29,7 @@ public class OpenLogDirectory : Phase
     // Required override
     public override void OnExit()
     {
+        path = DataLogger.Instance.currentFilePath;
         OpenInFileBrowser.Open(path);
     }
 }

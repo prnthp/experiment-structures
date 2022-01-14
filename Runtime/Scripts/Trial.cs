@@ -39,7 +39,7 @@ namespace ExperimentStructures
             }
         }
 
-        public Phase CurrentPhase => _phases[_state];
+        public Phase CurrentPhase => (_state >= _phases.Count) ? _phases[_phases.Count - 1] : _phases[_state];
 
         public int NumPhases => _phases.Count;
 
@@ -200,6 +200,8 @@ namespace ExperimentStructures
         }
 
 #if UNITY_EDITOR
+#pragma warning disable CS0649
+        // Disable null warnings for Unity < 2020
         [ClassExtends(typeof(Phase))] [SerializeField] [HideInInspector]
         internal List<ClassTypeReference> phasesToBuild;
 
@@ -208,7 +210,7 @@ namespace ExperimentStructures
         
         [ClassExtends(typeof(Trial))] [SerializeField] [HideInInspector]
         internal ClassTypeReference addTrial;
-
+#pragma warning restore CS0649
         [SerializeField] [HideInInspector] public bool showPhaseBuilder;
         [SerializeField] [HideInInspector] private float defaultDuration = Mathf.NegativeInfinity;
 
@@ -271,6 +273,7 @@ namespace ExperimentStructures
             if (_showUtilities)
             {
                 EditorGUILayout.Separator();
+#if UNITY_2020_1_OR_NEWER
                 EditorGUILayout.LabelField("Trial Builder", EditorStyles.boldLabel);
                 EditorGUI.indentLevel = 1;
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("phasesToBuild"));
@@ -281,6 +284,7 @@ namespace ExperimentStructures
 
                 EditorGUI.indentLevel = 0;
                 EditorGUILayout.Separator();
+#endif
                 EditorGUILayout.LabelField("Replace Trial", EditorStyles.boldLabel);
                 GUILayout.BeginHorizontal();
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("replaceTrialWith"));
