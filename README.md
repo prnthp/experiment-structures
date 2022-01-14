@@ -261,7 +261,14 @@ Use the Samples dropdown in the Package Manager to Install these samples.
 
 There are two Scenes provided: FeatureOverview and ColorIntensitySample. FeatureOverview contains a simplistic 2D Scene like the examples above and runs through most of the features available. ColorIntensitySample is a 2AFC experiment with absolutely no forethought on design, but serves as a "looks-like" prototype.
 
-<!-- TODO: Video -->
+#### FeatureOverview
+
+https://user-images.githubusercontent.com/25041773/149582635-be03815c-5644-4e89-aa97-869ff4eadc2a.mp4
+
+
+#### ColorIntensitySample
+
+https://user-images.githubusercontent.com/25041773/149561052-f58420d5-77d1-4816-8349-d44397ab03d5.mp4
 
 ### AEPsych-driven Samples
 
