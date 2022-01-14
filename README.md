@@ -283,7 +283,7 @@ https://user-images.githubusercontent.com/25041773/149561052-f58420d5-77d1-4816-
 
 Hi Meta folks! AEPsych-driven samples use the AEPsych server for adaptive experimentation provided by the perceptual science folks at Meta Reality Labs. It can shorten the amount of time for perceptual studies significantly!
 
-<!-- TODO: cool gif -->
+https://user-images.githubusercontent.com/25041773/149590225-a54b8d75-98ba-41a9-8b3d-4c4b7479fba0.mp4
 
 See [Samples~/AEPsychDriven/](Samples~/AEPsychDriven/)
 
