@@ -64,6 +64,9 @@ namespace ExperimentStructures
         [Space] [Help("This is simply what is fed into the ToString(floatFormat) method.", MessageType.None)]
         public string floatFormat = "E5";
 
+        public string currentFilePath => _currentFilePath;
+        public string currentFileName => _currentFileName;
+
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -89,6 +92,23 @@ namespace ExperimentStructures
                 EndLogging();
             }
             
+            Datapoints = new DatapointPairs();
+
+            if (keys != null)
+            {
+                foreach (var key in keys)
+                {
+                    Datapoints.AddValue(key, "");
+                }
+            }
+
+            _header = "";
+            _header += "time,";
+
+            foreach (var key in Datapoints.Headers) _header += key + ",";
+
+            _header = _header.Remove(_header.Length - 1);
+            
             _currentFileName = (fileName == "" ? "" : fileName + "-") +
                                DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".csv";
 
@@ -106,23 +126,6 @@ namespace ExperimentStructures
             }
 
             Debug.Log($"[Experiment Structures] Logging experiment to '{Path.GetFullPath(_currentFilePath)}'");
-
-            Datapoints = new DatapointPairs();
-
-            if (keys != null)
-            {
-                foreach (var key in keys)
-                {
-                    Datapoints.AddValue(key, "");
-                }
-            }
-
-            _header = "";
-            _header += "time,";
-
-            foreach (var key in Datapoints.Headers) _header += key + ",";
-
-            _header = _header.Remove(_header.Length - 1);
 
             _loggingActive = true;
             

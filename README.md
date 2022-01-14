@@ -277,10 +277,27 @@ The VR Sample is a simple 2AFC button stiffness experiment that you can run in t
 
 <!-- TODO: Video -->
 
-You will need to [configure your project for VR](https://developer.oculus.com/documentation/unity/unity-conf-settings/) and add the [Oculus Integration](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022) Asset to your project. Only the `Oculus/VR` folder is required.
+You will need to [configure your project for VR](https://developer.oculus.com/documentation/unity/unity-conf-settings/) and add the [Oculus Integration](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022) Asset to your project. Only the `Oculus/VR` folder is required. Choose the OpenXR backend when prompted.
+
+Additional Project Settings:
+- Physics
+  - Default Contact Offset: 0.001
+  - Default Solver Iterations: 12
+  - Default Solver Velocity Iterations: 4
+  - Solver Type: Temporal Gauss Seidel
+- Player
+  - Other Settings (Android)
+      - Color Space: Linear
+      - Untick Auto Graphics API, add Vulkan, move up list to first
+      - Scripting Backend: IL2CPP
+      - Target Architectures: Only ARM64
+- Time
+  - Fixed Timestep: 0.005
+
+Alternatively, a complete project file for Unity 2020.3.25f1 is provided here: [TODO](about:blank)
 
 ## License
 
-MIT License
+MIT License, otherwise as specified in each file
 
 Copyright © 2021 Jom Preechayasomboon
