@@ -1,5 +1,1 @@
-{{DESCRIPTION}}
-
-Documentation for Unity package manager window goes here.
-Also if images are used in README.md / docs this is a good place to store those as well.
-
+Please read the README.md file in the package root folder.

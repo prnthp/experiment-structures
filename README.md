@@ -1,4 +1,4 @@
-# **Duplo!** - Experiment Structures for User Studies in Unity
+# Experiment Structures for User Studies in Unity
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
