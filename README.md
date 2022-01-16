@@ -1,4 +1,6 @@
-# Experiment Structures for User Studies in Unity
+# Bricklayer - Experiment Structures for User Studies in Unity
+
+![logo](Images~/bricklayer-logo.svg)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
@@ -19,7 +21,7 @@
 
 ## Basic Concepts
 
-Experiment Structures is simply a framework for a finite state machine that exploits Unity's Scene hierarchy for reordering the states and utilizes Unity's Inspector for configuration. The framework has been used mainly for creating human behavioral experiments (psychophysics) and data collection applications.
+Bricklayer (Experiment Structures) is simply a framework for a finite state machine that exploits Unity's Scene hierarchy for reordering the states and utilizes Unity's Inspector for configuration. The framework has been used mainly for creating human behavioral experiments (psychophysics) and data collection applications.
 
 The framework has 3 main components: **Block**, **Trial**, and **Phase**. A **Block** contains a series of **Trials**, a **Trial** contains a series of **Phases**. A **Trial** can have many repetitions and a **Phase** can have a finite duration. When put together, an experiment can look like this:
 
@@ -33,9 +35,9 @@ Rearranging the Phases and Trials can be done by simply dragging the GameObjects
 
 *If you are looking for a framework that does it all: UI, data logging, structured sessions, analysis, etc. - look at [UXF](https://github.com/immersivecognition/unity-experiment-framework) or [Psychopy](https://psychopy.org/)! (also, if you need millisecond accuracy, look away, Unity is not designed for that stuff!)*
 
-But if you're like me, who likes to implement stuff in their own way, this might be for you! This works best if you already have a "game" in Unity and want a way to control progression in a repeated fashion. I usually build my experiments as a "minigame" first and then tack on Experiment Structures afterwards to control the flow.
+But if you're like me, who likes to implement stuff in their own way, this might be for you! This works best if you already have a "game" in Unity and want a way to control progression in a repeated fashion. I usually build my experiments as a "minigame" first and then tack on Bricklayer afterwards to control the flow.
 
-### Publications that have used earlier versions of Experiment Structures:
+### Publications that have used earlier versions of Bricklayer
 
 I started this around 2019, and have been adding new features along the way.
 
@@ -53,11 +55,11 @@ Minimum Unity version: 2020.1
 
 Extensively Tested on Unity version: 2020.3
 
-Experiment Structures doesn't have any dependencies. You have two options: 
+Bricklayer doesn't have any dependencies. You have two options: 
 - Clone this repo into your `Packages/` directory in your Unity project. This is useful if you want to modify this package to your own liking.
 - In the Package Manager, click the **+** sign at the top-left corner and hit `Add package from git URL...`, then enter `https://github.com/prnthp/experiment-structures.git`
 
-Once you've added Experiment Structures, go to **Assets**→**Create Experiment Structures Templates** to add some script templates to your `Asset/ScriptTemplates` directory. After restarting the Editor, you can just right-click in your Project tab and hit **Create**→**Experiment Structures**→**Phase**,**Trial** & **Block** just like you would with a new C# script! All the boilerplate is already added for you!
+Once you've added Bricklayer, go to **Assets**→**Create Experiment Structures Templates** to add some script templates to your `Asset/ScriptTemplates` directory. After restarting the Editor, you can just right-click in your Project tab and hit **Create**→**Experiment Structures**→**Phase**,**Trial** & **Block** just like you would with a new C# script! All the boilerplate is already added for you!
 
 <!-- TODO: Publish to UPM -->
 

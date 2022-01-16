@@ -1,9 +1,9 @@
 {
   "name": "com.prnthp.experiment-structures",
-  "displayName": "Experiment Structures",
+  "displayName": "Bricklayer",
   "version": "1.0.0",
   "unity": "2020.1",
-  "description": "Experiment Structures is simply a framework for a finite state machine that exploits Unity's Scene hierarchy for reordering the states and utilizes Unity's Inspector for configuration. The framework has been used mainly for creating human behavioral experiments (psychophysics) and data collection applications.\n\nThe framework has 3 main components: Block, Trial, and Phase. A Block contains a series of Trials, a Trial contains a series of Phases. A Trial can have many repetitions and a Phase can have a finite duration. ",
+  "description": "Bricklayer (Experiment Structures) is simply a framework for a finite state machine that exploits Unity's Scene hierarchy for reordering the states and utilizes Unity's Inspector for configuration. The framework has been used mainly for creating human behavioral experiments (psychophysics) and data collection applications.\n\nThe framework has 3 main components: Block, Trial, and Phase. A Block contains a series of Trials, a Trial contains a series of Phases. A Trial can have many repetitions and a Phase can have a finite duration. ",
   "keywords": [
     "unity",
     "unity3d",
