@@ -33,7 +33,7 @@ Rearranging the Phases and Trials can be done by simply dragging the GameObjects
 
 <img src="https://user-images.githubusercontent.com/25041773/149586598-68d32c66-2e02-4784-9491-6211f6e3d742.gif" width=800px alt="Example of Workflow" />
 
-*If you are looking for a framework that does it all: UI, data logging, structured sessions, analysis, etc. - look at [UXF](https://github.com/immersivecognition/unity-experiment-framework) or [Psychopy](https://psychopy.org/)! (also, if you need millisecond accuracy, look away, Unity is not designed for that stuff!)*
+> If you are looking for a framework that does it all: UI, data logging, structured sessions, analysis, etc. - look at [UXF](https://github.com/immersivecognition/unity-experiment-framework) or [Psychopy](https://psychopy.org/)! (also, if you need millisecond accuracy, look away, Unity is not designed for that stuff!)
 
 But if you're like me, who likes to implement stuff in their own way, this might be for you! This works best if you already have a "game" in Unity and want a way to control progression in a repeated fashion. I usually build my experiments as a "minigame" first and then tack on Bricklayer afterwards to control the flow.
 
@@ -59,7 +59,7 @@ Bricklayer doesn't have any dependencies. You have two options:
 - Clone this repo into your `Packages/` directory in your Unity project. This is useful if you want to modify this package to your own liking.
 - In the Package Manager, click the **+** sign at the top-left corner and hit `Add package from git URL...`, then enter `https://github.com/prnthp/experiment-structures.git`
 
-Once you've added Bricklayer, go to **Assets**→**Create Experiment Structures Templates** to add some script templates to your `Asset/ScriptTemplates` directory. After restarting the Editor, you can just right-click in your Project tab and hit **Create**→**Experiment Structures**→**Phase**,**Trial** & **Block** just like you would with a new C# script! All the boilerplate is already added for you!
+> Once you've added Bricklayer, go to **Assets**→**Create Experiment Structures Templates** to add some script templates to your `Asset/ScriptTemplates` directory. After restarting the Editor, you can just right-click in your Project tab and hit **Create**→**Experiment Structures**→**Phase**,**Trial** & **Block** just like you would with a new C# script! All the boilerplate is already added for you!
 
 <!-- TODO: Publish to UPM -->
 
