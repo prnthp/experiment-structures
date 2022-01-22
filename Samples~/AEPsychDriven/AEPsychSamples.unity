@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.18029505, g: 0.22572652, b: 0.30692935, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2942,7 +2942,6 @@ MonoBehaviour:
   addPhase:
     classRef: 
   stimulus: {fileID: 252912789}
-  queryType: 1
 --- !u!1 &867061070
 GameObject:
   m_ObjectHideFlags: 0
@@ -3654,7 +3653,6 @@ MonoBehaviour:
   addPhase:
     classRef: 
   stimulus: {fileID: 252912789}
-  queryType: 1
 --- !u!1 &1216519596
 GameObject:
   m_ObjectHideFlags: 0
@@ -4289,7 +4287,7 @@ MonoBehaviour:
   addPhase:
     classRef: 
   stimulus: {fileID: 252912789}
-  queryType: 1
+  isDetectionThreshold: 0
 --- !u!1 &1426799876
 GameObject:
   m_ObjectHideFlags: 0
@@ -5152,6 +5150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6853d6869f6584c05bf3215f60c4bc96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverAddress: 127.0.0.1
+  port: 5555
 --- !u!4 &1604601475
 Transform:
   m_ObjectHideFlags: 0
@@ -6720,7 +6720,7 @@ MonoBehaviour:
   addPhase:
     classRef: 
   stimulus: {fileID: 252912789}
-  queryType: 0
+  isDetectionThreshold: 1
 --- !u!1 &2031150654
 GameObject:
   m_ObjectHideFlags: 0

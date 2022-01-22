@@ -153,14 +153,13 @@ public class AEPsychClient : MonoBehaviour
         {
             [JsonConverter(typeof(StringEnumConverter))]
             public QueryType query_type { get; set; }
-            public List<float> x { get; set; }
+            public Dictionary<string, List<float>> x { get; set; }
             public float y { get; set; }
-            public Dictionary<int, float> constraints { get; set; }
+            public Dictionary<string, List<float>> constraints { get; set; }
             public bool probability_space { get; set; } = false;
         }
         public Message message;
 
-        // public AEPsychQuery(QueryType queryType, List<float> _x, float _y, Dictionary<int, float> _constraints, bool probabilitySpace)
         public AEPsychQuery(QueryType queryType)
         {
             version = null;
@@ -169,10 +168,6 @@ public class AEPsychClient : MonoBehaviour
             {
                 query_type = queryType
             };
-            // x = _x;
-            // y = _y;
-            // constraints = _constraints;
-            // probability_space = probabilitySpace;
         }
     }
     
@@ -255,9 +250,8 @@ public class AEPsychClient : MonoBehaviour
         return Request(message);
     }
 
-    public bool Query(AEPsychQuery.QueryType queryType, Action<AEPsychQuery.Message> callback)
+    public bool Query(AEPsychQuery query, Action<AEPsychQuery.Message> callback)
     {
-        var query = new AEPsychQuery(queryType);
         _queryCallback = callback;
         return Request(query);
     }
@@ -303,13 +297,13 @@ public class AEPsychClient : MonoBehaviour
         _client.Connect($"tcp://{serverAddress}:{port}");
         var request = req.ToJson();
         _client.SendFrame(request);
-        Debug.Log("Request: " + request);
+        // Debug.Log("Request: " + request);
         var response = "";
         while (!_client.TryReceiveFrameString(out response))
         {
             yield return null;
         }
-        Debug.Log("Response: " + response);
+        // Debug.Log("Response: " + response);
         switch (req.type)
         {
             case AEPsychRequest.Type.setup:
