@@ -2,3 +2,5 @@
 .vs/**
 *.meta
 !*.*.meta
+README.md.meta
+package.json.meta
