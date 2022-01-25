@@ -1,0 +1,1 @@
+Please copy everything in me to Assets/StreamingAssets/configs/
