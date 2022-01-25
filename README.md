@@ -316,12 +316,10 @@ Additional Project Settings:
 - Time
   - Fixed Timestep: 0.005
 
-Alternatively, a complete project file for Unity 2020.3.25f1 is provided here: [TODO](about:blank)
+Alternatively, a complete project file for Unity 2020.3.25f1 is provided [here](https://github.com/prnthp/experiment-structures/releases/download/v1.0.0/VRSample.apk)
 
 ## License
 
 MIT License, otherwise as specified in each file
 
 Copyright © 2021 Jom Preechayasomboon
-
-<meta name="google-site-verification" content="TG58TxW_XCjecSqfuKqjZ68zgjj0-JLsAmzcNBovvA4" />
