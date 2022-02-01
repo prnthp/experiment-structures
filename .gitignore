@@ -1,6 +1,6 @@
 .idea/**
 .vs/**
-*.meta
-!*.*.meta
-README.md.meta
-package.json.meta
+# *.meta
+# !*.*.meta
+# README.md.meta
+# package.json.meta
