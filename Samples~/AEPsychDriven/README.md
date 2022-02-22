@@ -6,7 +6,8 @@ These samples are driven using an AEPsych server running locally, communicating 
 
 ## Prerequisites
 
-- [AEPsych](https://github.com/facebookresearch/aepsych) server running in ZeroMQ mode 
+- [AEPsych](hhttps://github.com/facebookresearch/aepsych/tree/c0c5447a301a112bc93d48fa4216a6b695572fbb) server running in ZeroMQ mode 
+    - **Important**: AEPsych is in active development, these examples are based on the specific commit linked (c0c5447a30) and has been tested. Unfortunately, the latest commit will most likely be in a broken state. These samples will be updated again once there is an actual release.
     - Install the server in you python environment following the instructions in their repo
     - Launch the server using `python aepsych/server.py --socket_type zmq`
     - Note: You should **not** import AEPsych's Unity client, as it is not suited for our workflow and **not a dependency**.
