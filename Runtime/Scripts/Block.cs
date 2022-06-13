@@ -289,14 +289,22 @@ namespace ExperimentStructures
 
         private void Reset()
         {
+#if UNITY_2021_2_OR_NEWER
+            if (EditorGUIUtility.GetIconForObject(target) != null) return;
+#else
             if (GetIconForObject.Invoke(null, new[] { target }) != null) return;
+#endif
 
             Debug.LogWarning("[Experiment Structures] Assigning icon to new Block. Reimporting Asset. Please wait.");
 
             var icon =
                 AssetDatabase.LoadAssetAtPath<Texture2D>(
                     AssetDatabase.GUIDToAssetPath("b9d2e55155a5f4c8c88c5a051e1ffd51"));
+#if UNITY_2021_2_OR_NEWER
+            EditorGUIUtility.SetIconForObject(target, icon);
+#else
             SetIconForObject.Invoke(null, new[] { target, icon });
+#endif
             var behaviour = target as MonoBehaviour;
             var script = MonoScript.FromMonoBehaviour(behaviour);
             CopyMonoScriptIconToImporters.Invoke(null, new[] { script });
